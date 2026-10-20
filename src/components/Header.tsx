@@ -93,21 +93,9 @@ export default function Header() {
         className={`pointer-events-none absolute inset-x-0 top-0 -z-10 h-32 bg-[linear-gradient(to_bottom,rgb(0_79_113/0.85)_0%,rgb(0_79_113/0.6)_45%,rgb(0_79_113/0)_100%)] transition-opacity duration-(--duration-fast) ${solid ? "opacity-0" : "opacity-100"}`}
       />
       <div className="page-container flex h-full items-center justify-between">
-        <div className="flex items-center gap-s2 xl:gap-s5">
-          <Link href="/" aria-label="Iside — Events | Lounge | Living, vai alla home" className="flex h-11 shrink-0 items-center rounded-xs">
-            <Image src="/images/iside-logo-white.svg" alt="" width={346} height={98} unoptimized priority className="h-11 w-auto shrink-0 md:h-12 xl:h-12" />
-          </Link>
-          {/* I link della navbar compaiono da 1024px: sotto c'è il menu a hamburger. Il logo Promotergroup compare da 390px. */}
-          <span aria-hidden="true" className="hidden h-8 w-px shrink-0 bg-white/40 sm:block xl:h-9" />
-          <Image
-            src="/images/promotergroup-spa-white.svg"
-            alt="Promotergroup S.p.A."
-            width={799}
-            height={277}
-            unoptimized
-            className="hidden h-9 w-auto shrink-0 sm:block md:h-10 xl:h-10"
-          />
-        </div>
+        <Link href="/" aria-label="Iside — Events | Lounge | Living, vai alla home" className="flex h-11 shrink-0 items-center rounded-xs">
+          <Image src="/images/iside-logo-white.svg" alt="" width={346} height={98} unoptimized priority className="h-11 w-auto md:h-12" />
+        </Link>
         <nav aria-label="Principale" className="ml-auto mr-s6 hidden items-center gap-s1 lg:flex">
           {MENU_LINKS.map((l) => (
             <Link

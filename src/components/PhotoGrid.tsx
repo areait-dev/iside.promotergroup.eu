@@ -82,7 +82,7 @@ export default function PhotoGrid({ photos, label, className = "" }: { photos: P
         aria-label={`${label}: foto ingrandita`}
         onClose={() => setIndex(null)}
         onClick={(e) => e.target === e.currentTarget && dialogRef.current?.close()}
-        className="on-dark m-0 size-full max-h-none max-w-none bg-night/95 p-0 text-inverse backdrop:bg-night/80"
+        className="on-dark m-0 size-full max-h-none max-w-none bg-night p-0 text-inverse backdrop:bg-night/80"
       >
         {current && (
           <figure className="relative flex size-full flex-col">

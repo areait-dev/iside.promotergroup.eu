@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CTA, HOME_LINK, MENU_LINKS, PHONE_HREF, SITE, isTodo } from "@/config/site";
 
-const link = "inline-flex min-h-11 items-center text-md text-white/90 underline-offset-4 hover:text-white hover:underline";
+const link = "inline-flex min-h-11 min-w-11 items-center text-md text-white/90 underline-offset-4 hover:text-white hover:underline";
 
 export default function Footer() {
   const social = [

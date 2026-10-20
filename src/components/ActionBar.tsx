@@ -7,6 +7,9 @@ import { CalendarIcon, ChatIcon, PhoneIcon } from "./icons";
 import { CTA, PHONE_HREF, WHATSAPP_HREF } from "@/config/site";
 import { visibleById } from "@/lib/dom";
 
+/** Altezza della navbar fissa (--header-height): la barra compare quando l'hero è uscito sotto di essa. */
+const HEADER_HEIGHT = 64;
+
 const item =
   "flex min-h-11 flex-1 flex-col items-center justify-center gap-0.5 rounded-xs text-xs font-semibold text-inverse transition-colors duration-(--duration-fast) hover:bg-white/10 active:bg-white/20";
 
@@ -18,7 +21,7 @@ export default function ActionBar() {
 
   useEffect(() => {
     const hero = visibleById("hero");
-    const update = () => setAfterHero(hero ? hero.getBoundingClientRect().bottom <= window.innerHeight : true);
+    const update = () => setAfterHero(hero ? hero.getBoundingClientRect().bottom <= HEADER_HEIGHT : true);
     update();
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
