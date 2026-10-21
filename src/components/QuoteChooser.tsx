@@ -2,21 +2,31 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import ContactAside from "./ContactAside";
 import RequestForm from "./RequestForm";
+import type { Testi } from "@/content/testi";
 import type { Kind } from "@/lib/request";
-
-const TYPES: { kind: Kind; label: string }[] = [
-  { kind: "privati", label: "Evento privato" },
-  { kind: "aziendali", label: "Evento aziendale" },
-];
 
 /**
  * Pagina /preventivo: scelta del tipo di evento e modulo corrispondente (un solo modulo nel DOM alla volta).
  * Il tipo iniziale arriva dal server (da ?tipo=…), quindi il modulo è già nell'HTML al primo render.
  * Le scelte sono link veri a /preventivo?tipo=…: senza JS ricaricano la pagina, con JS cambiano subito senza navigare.
  */
-export default function QuoteChooser({ initialKind }: { initialKind: Kind | "" }) {
+/** `aside`: i contatti diretti (server component) accanto al modulo, passati da fuori perché questo componente è client. */
+export default function QuoteChooser({
+  initialKind,
+  aside,
+  t,
+  capienze,
+}: {
+  initialKind: Kind | "";
+  aside: React.ReactNode;
+  t: Testi;
+  capienze: { privati: number; aziendali: number };
+}) {
+  const TYPES: { kind: Kind; label: string }[] = [
+    { kind: "privati", label: t.preventivo.privato },
+    { kind: "aziendali", label: t.preventivo.aziendale },
+  ];
   const [kind, setKind] = useState<Kind | "">(initialKind);
 
   const choose = (e: React.MouseEvent<HTMLAnchorElement>, next: Kind) => {
@@ -31,7 +41,7 @@ export default function QuoteChooser({ initialKind }: { initialKind: Kind | "" }
       <div>
         <div role="group" aria-labelledby="tipo-legend">
           <p id="tipo-legend" className="font-display text-xl font-bold text-ink">
-            Che evento vuoi organizzare?
+            {t.preventivo.scegli}
           </p>
           <div className="mt-s4 flex flex-wrap gap-s2">
             {TYPES.map((t) => {
@@ -54,13 +64,13 @@ export default function QuoteChooser({ initialKind }: { initialKind: Kind | "" }
             })}
           </div>
         </div>
-        <ContactAside />
+        {aside}
       </div>
       <div>
         {kind ? (
-          <RequestForm key={kind} kind={kind} />
+          <RequestForm key={kind} kind={kind} t={t.modulo} capienze={capienze} />
         ) : (
-          <p className="rounded-md bg-raised p-s5 text-md text-ink-secondary">Scegli il tipo di evento: ti mostriamo il modulo giusto.</p>
+          <p className="rounded-md bg-raised p-s5 text-md text-ink-secondary">{t.preventivo.vuoto}</p>
         )}
       </div>
     </div>

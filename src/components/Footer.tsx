@@ -1,17 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FacebookIcon, InstagramIcon, LinkedinIcon, WhatsappIcon } from "./icons";
-import { CTA, HOME_LINK, MENU_LINKS, PHONE_HREF, SITE, WHATSAPP_HREF, isTodo } from "@/config/site";
+import { WhatsappIcon } from "./icons";
+import { socialNetworks } from "./social";
+import { CTA, HOME_LINK, isTodo } from "@/config/site";
+import { getTesti } from "@/lib/page-data";
+import { getMenu, getSite, phoneHref, whatsappHref } from "@/lib/site-data";
 
 const link = "inline-flex min-h-11 min-w-11 items-center text-md text-ink underline-offset-4 hover:underline";
 
-export default function Footer() {
+export default async function Footer() {
+  const SITE = await getSite();
+  const MENU_LINKS = await getMenu();
+  const T = await getTesti();
+  const PHONE_HREF = phoneHref(SITE);
+  const wa = whatsappHref(SITE);
   const social = [
-    { label: "Instagram", href: SITE.social.instagram, Icon: InstagramIcon },
-    { label: "Facebook", href: SITE.social.facebook, Icon: FacebookIcon },
-    { label: "LinkedIn", href: SITE.social.linkedin, Icon: LinkedinIcon },
-    { label: "WhatsApp", href: WHATSAPP_HREF ?? "", Icon: WhatsappIcon },
-  ].filter((s) => !isTodo(s.href));
+    ...socialNetworks(SITE.social),
+    ...(wa ? [{ label: T.pulsanti.whatsapp, href: wa, Icon: WhatsappIcon }] : []),
+  ];
 
   return (
     <footer className="border-t border-line bg-base text-ink">
@@ -32,9 +38,9 @@ export default function Footer() {
         </div>
 
         <nav aria-label="Pagine del sito" className="min-w-0">
-          <p className="font-display text-lg font-bold">Il sito</p>
+          <p className="font-display text-lg font-bold">{T.footer.titoloSito}</p>
           <ul className="mt-s2 grid">
-            {[HOME_LINK, ...MENU_LINKS].map((l) => (
+            {[{ ...HOME_LINK, label: T.navigazione.home }, ...MENU_LINKS].map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className={link}>
                   {l.label}
@@ -43,14 +49,14 @@ export default function Footer() {
             ))}
             <li>
               <Link href={CTA.href} className={link}>
-                Richiedi un preventivo
+                {T.pulsanti.preventivo}
               </Link>
             </li>
           </ul>
         </nav>
 
         <div className="min-w-0">
-          <p className="font-display text-lg font-bold">Seguici</p>
+          <p className="font-display text-lg font-bold">{T.footer.titoloSocial}</p>
           <ul className="mt-s2 grid justify-start">
             {social.map((s) => (
               <li key={s.label}>
@@ -75,17 +81,19 @@ export default function Footer() {
             <p className="font-semibold text-ink">
               {SITE.name} - {SITE.tagline}
             </p>
-            <p>Un servizio di {SITE.legalName}</p>
             <p>
-              {SITE.operatorName} - P.IVA: {SITE.vatId}
+              {T.footer.servizioDi} {SITE.legalName}
+            </p>
+            <p>
+              {SITE.operatorName} - {T.footer.etichettaPartitaIva}: {SITE.vatId}
             </p>
           </div>
           <p className="flex gap-s5">
             <Link href="/privacy" className="inline-flex min-h-11 min-w-11 items-center underline underline-offset-4 hover:text-water">
-              Privacy
+              {T.footer.privacy}
             </Link>
             <Link href="/cookie" className="inline-flex min-h-11 min-w-11 items-center underline underline-offset-4 hover:text-water">
-              Cookie
+              {T.footer.cookie}
             </Link>
           </p>
         </div>

@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withPayload } from "@payloadcms/next/withPayload";
 import { findTodos } from "./src/config/site";
 
 /**
@@ -17,14 +18,23 @@ if (!globalWithFlag.__isideTodoChecked) {
   }
 }
 
+/** Host delle foto su Supabase Storage (da S3_PUBLIC_URL), così next/image può ottimizzarle. */
+const fotoHost = (() => {
+  try {
+    return process.env.S3_PUBLIC_URL ? new URL(process.env.S3_PUBLIC_URL).hostname : null;
+  } catch {
+    return null;
+  }
+})();
+
 const nextConfig: NextConfig = {
+  images: fotoHost ? { remotePatterns: [{ protocol: "https", hostname: fotoHost, pathname: "/storage/v1/object/public/**" }] } : undefined,
   /** La vecchia pagina /prenota è ora /preventivo (la query ?tipo=… viene mantenuta). */
   async redirects() {
     return [{ source: "/prenota", destination: "/preventivo", permanent: true }];
   },
   /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // cacheComponents e partialPrefetching sono spenti: il pannello Payload (/admin) non è compatibile con cacheComponents.
   turbopack: {
     rules: {
       "*.css": {
@@ -35,4 +45,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPayload(nextConfig);

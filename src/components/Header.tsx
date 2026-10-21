@@ -5,9 +5,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CloseIcon, MenuIcon, PhoneIcon, WhatsappIcon } from "./icons";
-import { CTA, HOME_LINK, MENU_LINKS, PHONE_HREF, WHATSAPP_HREF } from "@/config/site";
+import { CTA, HOME_LINK } from "@/config/site";
+import type { MenuLink } from "@/lib/site-data";
 import { visibleById } from "@/lib/dom";
-import { NETWORKS } from "./SocialRail";
+import { socialNetworks, type Social } from "./social";
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 const HEADER_HEIGHT = 64;
@@ -17,7 +18,21 @@ const HERO_PATHS = new Set(["/", "/area-living", "/centro-congressi", "/cucina",
 const iconBtn =
   "inline-flex size-11 items-center justify-center rounded-pill text-inverse hover:bg-white/15 active:bg-white/25";
 
-export default function Header() {
+export default function Header({
+  phoneHref,
+  whatsappHref,
+  social,
+  menu: MENU_LINKS,
+  labels,
+}: {
+  phoneHref: string;
+  whatsappHref: string | null;
+  social: Social;
+  menu: MenuLink[];
+  /** Testi dal pannello: voce Home, pulsante preventivo, Chiama e WhatsApp. */
+  labels: { home: string; preventivo: string; chiama: string; whatsapp: string };
+}) {
+  const NETWORKS = socialNetworks(social);
   const pathname = usePathname();
   const hasHero = HERO_PATHS.has(pathname);
   const [heroGone, setHeroGone] = useState(false);
@@ -110,16 +125,18 @@ export default function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-s1">
-          {WHATSAPP_HREF && (
-            <a href={WHATSAPP_HREF} target="_blank" rel="noopener noreferrer" className={iconBtn}>
+          {whatsappHref && (
+            <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className={iconBtn}>
               <WhatsappIcon />
-              <span className="sr-only-text">Scrivici su WhatsApp (si apre in una nuova scheda)</span>
+              <span className="sr-only-text">{labels.whatsapp} (si apre in una nuova scheda)</span>
             </a>
           )}
-          <a href={PHONE_HREF} className={iconBtn}>
-            <PhoneIcon />
-            <span className="sr-only-text">Chiama</span>
-          </a>
+          {phoneHref && (
+            <a href={phoneHref} className={iconBtn}>
+              <PhoneIcon />
+              <span className="sr-only-text">{labels.chiama}</span>
+            </a>
+          )}
           <button
             ref={menuBtnRef}
             type="button"
@@ -145,7 +162,7 @@ export default function Header() {
       >
         <nav aria-label="Menu mobile" className="page-container flex flex-col gap-s7 py-s6">
           <ul className="flex flex-col">
-            {[HOME_LINK, ...MENU_LINKS].map((l) => (
+            {[{ ...HOME_LINK, label: labels.home }, ...MENU_LINKS].map((l) => (
               <li key={l.href} className="border-b border-white/15">
                 <Link
                   href={l.href}
@@ -162,7 +179,7 @@ export default function Header() {
             onClick={() => setOpen(false)}
             className="inline-flex min-h-12 items-center justify-center rounded-pill bg-white px-s6 text-md font-semibold text-night transition-[filter] duration-(--duration-fast) hover:brightness-95"
           >
-            {CTA.label}
+            {labels.preventivo}
           </Link>
           {NETWORKS.length > 0 && (
             <ul className="flex gap-s1">

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CalendarIcon, PhoneIcon, WhatsappIcon } from "./icons";
-import { CTA, PHONE_HREF, WHATSAPP_HREF } from "@/config/site";
+import { CTA } from "@/config/site";
 import { visibleById } from "@/lib/dom";
 
 /** Altezza della navbar fissa (--header-height): la barra compare quando l'hero è uscito sotto di essa. */
@@ -13,8 +13,20 @@ const HEADER_HEIGHT = 64;
 const item =
   "flex min-h-11 flex-1 flex-col items-center justify-center gap-0.5 rounded-xs text-xs font-semibold text-inverse transition-colors duration-(--duration-fast) hover:bg-white/10 active:bg-white/20";
 
-export default function ActionBar() {
+export default function ActionBar({
+  phoneHref,
+  whatsappHref,
+  labels,
+  perPagina = [],
+}: {
+  phoneHref: string;
+  whatsappHref: string | null;
+  labels: { chiama: string; whatsapp: string; preventivo: string };
+  /** Pulsante diverso per pagina (dal pannello); dove manca vale quello generico. */
+  perPagina?: { percorso: string; breve: string; testo: string; link: string }[];
+}) {
   const pathname = usePathname();
+  const cta = perPagina.find((p) => p.percorso.replace(/\/$/, "") === pathname.replace(/\/$/, ""));
   const [afterHero, setAfterHero] = useState(false);
   const [footerVisible, setFooterVisible] = useState(false);
   const [keyboardOpen, setKeyboardOpen] = useState(false);
@@ -53,22 +65,23 @@ export default function ActionBar() {
       }`}
     >
       <div className="flex h-bar items-center gap-s1 px-s3">
-        <a href={PHONE_HREF} className={item}>
+        <a href={phoneHref} className={item}>
           <PhoneIcon className="size-5" />
-          Chiama
+          {labels.chiama}
         </a>
-        {WHATSAPP_HREF && (
-          <a href={WHATSAPP_HREF} className={item}>
+        {whatsappHref && (
+          <a href={whatsappHref} className={item}>
             <WhatsappIcon className="size-5" />
-            WhatsApp
+            {labels.whatsapp}
           </a>
         )}
         <Link
-          href={CTA.href}
+          href={cta?.link || CTA.href}
+          aria-label={cta?.testo}
           className="flex min-h-11 flex-[1.3] items-center justify-center gap-s1 rounded-pill bg-white px-s4 text-md font-semibold text-night transition-[filter] duration-(--duration-fast) hover:brightness-95 active:brightness-90"
         >
           <CalendarIcon className="size-5" />
-          {CTA.short}
+          {cta?.breve || labels.preventivo}
         </Link>
       </div>
     </nav>
