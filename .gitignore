@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# CMS (Payload): database locale e foto caricate
+/data
+/media
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+!.env.example

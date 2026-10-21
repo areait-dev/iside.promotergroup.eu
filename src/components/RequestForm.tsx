@@ -3,10 +3,8 @@
 import Link from "next/link";
 import { useId, useRef, useState, useSyncExternalStore } from "react";
 import { AlertIcon } from "./icons";
-import { CAPACITY, REQUEST_CONFIRMATION } from "@/config/site";
+import type { TestiModulo } from "@/content/testi";
 import {
-  FORMATI,
-  OCCASIONI,
   emptyRequest,
   validate,
   type Errors,
@@ -37,6 +35,7 @@ function Chips({
   onChange,
   error,
   required,
+  optionalLabel,
 }: {
   idPrefix: string;
   name: string;
@@ -46,13 +45,14 @@ function Chips({
   onChange: (v: string) => void;
   error?: string;
   required?: boolean;
+  optionalLabel: string;
 }) {
   const errId = `${idPrefix}-${name}-error`;
   return (
     <fieldset aria-describedby={error ? errId : undefined} className="min-w-0">
       <legend className={label}>
         {legend}
-        {!required && <span className="font-normal text-ink-secondary"> (facoltativo)</span>}
+        {!required && <span className="font-normal text-ink-secondary"> {optionalLabel}</span>}
       </legend>
       <div className="flex flex-wrap gap-s2">
         {options.map((o, i) => (
@@ -77,7 +77,8 @@ function Chips({
   );
 }
 
-export default function RequestForm({ kind }: { kind: Kind }) {
+/** `t`: i testi del modulo, dal pannello («Testi del sito → Modulo di richiesta»). `capienze`: ospiti oltre i quali compare l'avviso. */
+export default function RequestForm({ kind, t, capienze }: { kind: Kind; t: TestiModulo; capienze: { privati: number; aziendali: number } }) {
   const [values, setValues] = useState<RequestData>(() => emptyRequest(kind));
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
@@ -140,21 +141,21 @@ export default function RequestForm({ kind }: { kind: Kind }) {
 
   if (status === "success") {
     const rows = [
-      ["Data", new Date(values.data + "T12:00:00").toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" })],
-      ["Ospiti", values.ospiti],
-      kind === "privati" && values.occasione ? ["Occasione", values.occasione] : null,
-      kind === "aziendali" && values.formato ? ["Formato", values.formato] : null,
-      ["Nome", values.nome],
-      values.telefono.trim() ? ["Telefono", values.telefono] : null,
-      values.email.trim() ? ["Email", values.email] : null,
+      [t.riepilogoData, new Date(values.data + "T12:00:00").toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" })],
+      [t.riepilogoOspiti, values.ospiti],
+      kind === "privati" && values.occasione ? [t.riepilogoOccasione, values.occasione] : null,
+      kind === "aziendali" && values.formato ? [t.riepilogoFormato, values.formato] : null,
+      [t.riepilogoNome, values.nome],
+      values.telefono.trim() ? [t.riepilogoTelefono, values.telefono] : null,
+      values.email.trim() ? [t.riepilogoEmail, values.email] : null,
     ].filter((r): r is string[] => r !== null);
     return (
       <div role="status" className="scroll-mt-[calc(var(--header-height)+var(--space-4))] rounded-md bg-raised p-s6 shadow-card">
         <h3 ref={thanksRef} tabIndex={-1} className="font-display text-2xl font-bold outline-none">
-          Grazie!
+          {t.grazie}
         </h3>
         <p className="mt-s3 text-md text-ink-secondary">
-          Abbiamo ricevuto la tua richiesta. {REQUEST_CONFIRMATION}
+          {t.ricevuta} {t.conferma}
         </p>
         <dl className="mt-s6 grid grid-cols-[auto_1fr] gap-x-s5 gap-y-s2 text-md">
           {rows.map(([k, v]) => (
@@ -183,19 +184,28 @@ export default function RequestForm({ kind }: { kind: Kind }) {
         {status === "error" && (
           <p className="flex items-start gap-s2 rounded-xs border border-error bg-raised p-s3 text-md font-semibold text-error">
             <AlertIcon className="mt-0.5 size-5 shrink-0" />
-            Non siamo riusciti a inviare la richiesta. Riprova tra poco o chiamaci.
+            {t.erroreInvio}
           </p>
         )}
       </div>
 
       {kind === "privati" ? (
-        <Chips idPrefix={uid} name="occasione" legend="Occasione" options={OCCASIONI} value={values.occasione} onChange={(v) => set("occasione", v)} />
+        <Chips
+          idPrefix={uid}
+          name="occasione"
+          legend={t.legendOccasione}
+          options={t.occasioni.map((o) => o.testo)}
+          value={values.occasione}
+          onChange={(v) => set("occasione", v)}
+          optionalLabel={t.facoltativo}
+        />
       ) : (
         <Chips
           idPrefix={uid}
           name="formato"
-          legend="Formato"
-          options={FORMATI}
+          legend={t.legendFormato}
+          options={t.formati.map((f) => f.testo)}
+          optionalLabel={t.facoltativo}
           value={values.formato}
           onChange={(v) => set("formato", v)}
           error={errors.formato}
@@ -206,14 +216,14 @@ export default function RequestForm({ kind }: { kind: Kind }) {
       <div className="grid gap-s5 md:grid-cols-2">
         <div>
           <label htmlFor={fid("data")} className={label}>
-            Data dell’evento
+            {t.data}
           </label>
           <input type="date" min={today || undefined} autoComplete="off" required value={values.data} onChange={(e) => set("data", e.target.value)} {...ctl("data")} />
           <FieldError id={`${fid("data")}-error`} message={errors.data} />
         </div>
         <div>
           <label htmlFor={fid("ospiti")} className={label}>
-            Numero di ospiti
+            {t.ospiti}
           </label>
           <input
             type="text"
@@ -226,22 +236,18 @@ export default function RequestForm({ kind }: { kind: Kind }) {
             {...ctl("ospiti")}
           />
           <FieldError id={`${fid("ospiti")}-error`} message={errors.ospiti} />
-          {kind === "privati" && guests > CAPACITY.bordoPiscinaCoperto && (
-            <p className="mt-s1 text-sm text-ink-secondary">
-              Oltre {CAPACITY.bordoPiscinaCoperto} ospiti usiamo anche il giardino: ti ricontattiamo per i dettagli.
-            </p>
+          {kind === "privati" && guests > capienze.privati && (
+            <p className="mt-s1 text-sm text-ink-secondary">{t.avvisoPrivati.replace("{n}", String(capienze.privati))}</p>
           )}
-          {kind === "aziendali" && guests > CAPACITY.centroCongressi && (
-            <p className="mt-s1 text-sm text-ink-secondary">
-              Il Centro congressi accoglie fino a {CAPACITY.centroCongressi} persone: ti ricontattiamo per valutare insieme la soluzione.
-            </p>
+          {kind === "aziendali" && guests > capienze.aziendali && (
+            <p className="mt-s1 text-sm text-ink-secondary">{t.avvisoAziendali.replace("{n}", String(capienze.aziendali))}</p>
           )}
         </div>
       </div>
 
       <div>
         <label htmlFor={fid("nome")} className={label}>
-          Nome e cognome
+          {t.nome}
         </label>
         <input type="text" autoComplete="name" required value={values.nome} onChange={(e) => set("nome", e.target.value)} {...ctl("nome")} />
         <FieldError id={`${fid("nome")}-error`} message={errors.nome} />
@@ -249,19 +255,19 @@ export default function RequestForm({ kind }: { kind: Kind }) {
 
       <div role="group" aria-labelledby={fid("contatto-legend")}>
         <p id={fid("contatto-legend")} className={label}>
-          Come ti ricontattiamo <span className="font-normal text-ink-secondary">(almeno uno tra telefono ed email)</span>
+          {t.contatti} <span className="font-normal text-ink-secondary">{t.contattiNota}</span>
         </p>
         <div className="grid gap-s5 md:grid-cols-2">
           <div>
             <label htmlFor={fid("telefono")} className={label}>
-              Telefono
+              {t.telefono}
             </label>
             <input type="tel" inputMode="tel" autoComplete="tel" value={values.telefono} onChange={(e) => set("telefono", e.target.value)} {...ctl("telefono")} />
             <FieldError id={`${fid("telefono")}-error`} message={errors.telefono} />
           </div>
           <div>
             <label htmlFor={fid("email")} className={label}>
-              Email
+              {t.email}
             </label>
             <input type="email" inputMode="email" autoComplete="email" value={values.email} onChange={(e) => set("email", e.target.value)} {...ctl("email")} />
             <FieldError id={`${fid("email")}-error`} message={errors.email} />
@@ -273,7 +279,7 @@ export default function RequestForm({ kind }: { kind: Kind }) {
       {kind === "aziendali" && (
         <div>
           <label htmlFor={fid("tecniche")} className={label}>
-            Necessità tecniche <span className="font-normal text-ink-secondary">(facoltativo)</span>
+            {t.tecniche} <span className="font-normal text-ink-secondary">{t.facoltativo}</span>
           </label>
           <textarea rows={3} value={values.tecniche} onChange={(e) => set("tecniche", e.target.value)} {...ctl("tecniche")} />
         </div>
@@ -281,7 +287,7 @@ export default function RequestForm({ kind }: { kind: Kind }) {
 
       <div>
         <label htmlFor={fid("messaggio")} className={label}>
-          Messaggio <span className="font-normal text-ink-secondary">(facoltativo)</span>
+          {t.messaggio} <span className="font-normal text-ink-secondary">{t.facoltativo}</span>
         </label>
         <textarea rows={4} autoComplete="off" value={values.messaggio} onChange={(e) => set("messaggio", e.target.value)} {...ctl("messaggio")} />
       </div>
@@ -305,11 +311,11 @@ export default function RequestForm({ kind }: { kind: Kind }) {
             className="mt-0.5 size-6 shrink-0 accent-water"
           />
           <span>
-            Ho letto l’
+            {t.consensoInizio}
             <Link href="/privacy" className="font-semibold text-water underline underline-offset-4">
-              informativa privacy
+              {t.consensoLink}
             </Link>{" "}
-            e accetto che i miei dati siano usati per rispondere alla richiesta.
+            {t.consensoFine}
           </span>
         </label>
         <FieldError id={`${fid("consenso")}-error`} message={errors.consenso} />
@@ -325,7 +331,7 @@ export default function RequestForm({ kind }: { kind: Kind }) {
             <path d="M12 3a9 9 0 1 0 9 9" strokeLinecap="round" />
           </svg>
         )}
-        {status === "loading" ? "Invio in corso…" : "Invia la richiesta"}
+        {status === "loading" ? t.invio : t.invia}
       </button>
     </form>
   );

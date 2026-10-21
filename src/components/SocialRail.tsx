@@ -1,14 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { FacebookIcon, InstagramIcon, LinkedinIcon } from "./icons";
-import { SITE, isTodo } from "@/config/site";
-
-export const NETWORKS = [
-  { label: "Instagram", href: SITE.social.instagram, Icon: InstagramIcon },
-  { label: "Facebook", href: SITE.social.facebook, Icon: FacebookIcon },
-  { label: "LinkedIn", href: SITE.social.linkedin, Icon: LinkedinIcon },
-].filter((n) => !isTodo(n.href));
+import { socialNetworks, type Social } from "./social";
 
 /** Vero se ciò che sta sotto il punto è uno sfondo scuro: un'area `.on-dark` oppure una foto/un video. */
 function darkAt(x: number, y: number, rail: HTMLElement): boolean {
@@ -21,7 +14,8 @@ function darkAt(x: number, y: number, rail: HTMLElement): boolean {
  * Icone social fisse sul bordo sinistro (da tablet in su: su mobile coprirebbero il testo, lì stanno nel menu), senza sfondo: seguono lo scroll, sono bianche sulle aree scure
  * e blu Iside su quelle chiare, e lasciano il posto al footer, che ha già i link.
  */
-export default function SocialRail() {
+export default function SocialRail({ social }: { social: Social }) {
+  const NETWORKS = socialNetworks(social);
   const railRef = useRef<HTMLElement>(null);
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const [footerVisible, setFooterVisible] = useState(false);

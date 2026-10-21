@@ -1,11 +1,12 @@
-import { useId } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import HeroMedia from "./HeroMedia";
-import { SITE } from "@/config/site";
+import type { HomeContent } from "@/content/home";
+import { getSite } from "@/lib/site-data";
 
-export default function Hero() {
-  const titleId = useId();
+export default async function Hero({ content }: { content: HomeContent["hero"] }) {
+  const titleId = "hero-title";
+  const SITE = await getSite();
   return (
     <section
       id="hero"
@@ -30,27 +31,28 @@ export default function Hero() {
       <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(to_right,rgb(0_79_113/0.45)_0%,rgb(0_79_113/0.2)_55%,rgb(0_79_113/0)_100%)]" />
       <div className="page-container relative pb-s8 pt-header md:pb-s9">
         <h1 id={titleId} className="max-w-[16ch] font-display text-3xl font-bold leading-[1.2] tracking-tight text-balance">
-          <span className="block">Lo spazio ideale</span>
-          <span className="block">per i tuoi eventi</span>
-          <span className="block">business &amp; privati</span>
+          {content.titleLines.map((line) => (
+            <span key={line} className="block">
+              {line}
+            </span>
+          ))}
         </h1>
-        <p className="mt-s4 text-md font-semibold text-white">Iside è il nuovo brand di {SITE.legalName}</p>
+        <p className="mt-s4 text-md font-semibold text-white">{content.brandLine.replace("{societa}", SITE.legalName)}</p>
         <p className="mt-s2 max-w-[60ch] text-md text-white md:text-lg">
-          Situata al centro della Valle dell’Ippari, a due passi dall’aeroporto di Comiso e da Vittoria, la struttura è composta da un
-          Centro Congressi e da un’ampia area living con piscina, giardino e gazebi.
+          {content.intro}
         </p>
         <div className="mt-s6 flex flex-col gap-s3 md:flex-row">
           <Link
-            href="/eventi-privati#richiesta-privati"
+            href={content.ctaPrivate.href}
             className="inline-flex min-h-12 items-center justify-center rounded-pill bg-white px-s6 text-md font-semibold text-night transition-[filter] duration-(--duration-fast) ease-standard hover:brightness-95 active:brightness-90"
           >
-            Organizza la tua festa
+            {content.ctaPrivate.label}
           </Link>
           <Link
-            href="/eventi-aziendali#richiesta-aziendali"
+            href={content.ctaBusiness.href}
             className="inline-flex min-h-12 items-center justify-center rounded-pill border border-white px-s6 text-md font-semibold text-inverse transition-colors duration-(--duration-fast) ease-standard hover:bg-white/15 active:bg-white/25"
           >
-            Organizza un evento aziendale
+            {content.ctaBusiness.label}
           </Link>
         </div>
       </div>

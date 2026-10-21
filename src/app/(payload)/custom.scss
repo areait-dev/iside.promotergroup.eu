@@ -1,0 +1,528 @@
+/* Pannello di amministrazione: colori e carattere del marchio Iside (blu #004f71, crema #fbf7ea). */
+:root {
+  --iside-blue: #004f71;
+  --iside-blue-hover: #1b7399;
+  --iside-cream: #fbf7ea;
+}
+
+/* Tasto principale in blu Iside, ovunque nel pannello */
+.btn--style-primary {
+  --bg-color: var(--iside-blue);
+  --color: #fff;
+  --hover-bg: var(--iside-blue-hover);
+  --hover-color: #fff;
+  --box-shadow-color: transparent;
+}
+
+/*
+ * Pagina di accesso e di creazione del primo utente, sul modello di next-auth-template:
+ * scheda bianca centrata (400px) su sfondo a sfumatura radiale, con intestazione, modulo e link per tornare indietro.
+ */
+.template-minimal {
+  background: radial-gradient(ellipse at top, var(--iside-blue-hover) 0%, var(--iside-blue) 55%, #00334a 100%);
+
+  .template-minimal__wrap {
+    background: #fff;
+    border: 1px solid rgba(0, 79, 113, 0.12);
+    border-radius: 12px;
+    padding: 32px 28px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -2px rgba(0, 0, 0, 0.15);
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .login-intro {
+    margin-bottom: 24px;
+    text-align: center;
+
+    h1 {
+      margin: 16px 0 8px;
+      font-family: Georgia, "Merriweather", serif;
+      font-size: 26px;
+      color: var(--iside-blue);
+    }
+
+    p {
+      margin: 0;
+      color: #4a5a63;
+    }
+  }
+
+  a {
+    color: var(--iside-blue);
+  }
+
+  .login-back {
+    margin: 20px 0 0;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .form-submit .btn {
+    width: 100%;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Pannello (dentro): sfondo crema, schede bianche, menu laterale blu
+ * ------------------------------------------------------------------ */
+
+/* Sfondo crema: le schede, i campi e le tabelle restano bianchi e ne escono in rilievo */
+html[data-theme="light"] {
+  --theme-bg: var(--iside-cream);
+}
+
+body {
+  font-family: "Karla", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* Titoli con il carattere del sito */
+.template-default h1,
+.doc-header__title,
+.dashboard h1 {
+  font-family: Georgia, "Merriweather", serif;
+  color: var(--iside-blue);
+}
+
+/* Menu laterale blu Iside */
+.nav {
+  --nav-text: rgba(255, 255, 255, 0.92);
+  background: var(--iside-blue);
+  color: var(--nav-text);
+  border-right: 0;
+
+  .nav__wrap,
+  .nav__header,
+  .nav__controls {
+    background: transparent;
+  }
+
+  a,
+  button,
+  .nav__label,
+  .nav-group__toggle,
+  .nav__link,
+  .nav__log-out {
+    color: var(--nav-text);
+  }
+
+  svg {
+    color: var(--nav-text);
+  }
+
+  .nav__label {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 12px;
+    opacity: 0.75;
+  }
+
+  .nav__link {
+    border-radius: 8px;
+    padding-inline: 10px;
+    transition: background-color 150ms;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+  }
+
+  .nav__link-indicator {
+    background: #fff;
+  }
+
+  a[aria-current="page"],
+  .nav__link--active {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    font-weight: 700;
+  }
+}
+
+/* Barra in alto: crema con una linea sottile sotto */
+.app-header {
+  border-bottom: 1px solid rgba(0, 79, 113, 0.14);
+}
+
+/* Schede (pannello iniziale) e blocchi */
+.card,
+.dashboard .card {
+  background: #fff;
+  border: 1px solid rgba(0, 79, 113, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0, 79, 113, 0.06), 0 6px 16px rgba(0, 79, 113, 0.06);
+  transition: box-shadow 150ms, transform 150ms;
+
+  &:hover {
+    box-shadow: 0 2px 4px rgba(0, 79, 113, 0.08), 0 10px 24px rgba(0, 79, 113, 0.1);
+  }
+}
+
+/* Gruppi di campi e schede (tab): bordo azzurrino per staccarli dal fondo */
+.group-field,
+.array-field,
+.tabs-field {
+  border-color: rgba(0, 79, 113, 0.14);
+}
+
+.tabs-field__tab-button--active {
+  color: var(--iside-blue);
+  border-bottom-color: var(--iside-blue);
+}
+
+/* Campi: bordo che riprende il blu al passaggio e al focus */
+.field-type input:focus,
+.field-type textarea:focus,
+.field-type select:focus {
+  border-color: var(--iside-blue-hover);
+  box-shadow: 0 0 0 3px rgba(27, 115, 153, 0.2);
+}
+
+/* ------------------------------------------------------------------
+ * «Pagine»: elenco di tutte le pagine del sito, come in WordPress
+ * ------------------------------------------------------------------ */
+.nav-pagine {
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+  .nav__link {
+    font-weight: 700;
+  }
+}
+
+.pagine-view {
+  padding-block: 32px 64px;
+
+  h1 {
+    margin: 0 0 8px;
+  }
+
+  .pagine-view__intro {
+    margin: 0 0 24px;
+    color: #4a5a63;
+  }
+
+  .pagine-view__table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid rgba(0, 79, 113, 0.12);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0, 79, 113, 0.06), 0 6px 16px rgba(0, 79, 113, 0.06);
+  }
+
+  th,
+  td {
+    padding: 14px 16px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid rgba(0, 79, 113, 0.1);
+  }
+
+  thead th {
+    background: rgba(0, 79, 113, 0.06);
+    color: var(--iside-blue);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  tbody tr:hover {
+    background: rgba(0, 79, 113, 0.03);
+  }
+
+  a {
+    color: var(--iside-blue);
+  }
+
+  .pagine-view__title {
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .pagine-view__note {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    color: #4a5a63;
+  }
+
+  .pagine-view__actions {
+    white-space: nowrap;
+
+    a + a {
+      margin-left: 16px;
+    }
+  }
+
+  .pagine-view__sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  @media (max-width: 720px) {
+    th:nth-child(2),
+    td:nth-child(2),
+    th:nth-child(3),
+    td:nth-child(3) {
+      display: none;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Menu laterale piatto: una voce per sezione
+ * ------------------------------------------------------------------ */
+.nav-pagine {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+  .nav-pagine__link {
+    font-weight: 700;
+    font-size: 16px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-pagine__link--attiva {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Semaforo SEO (in stile Yoast)
+ * ------------------------------------------------------------------ */
+.semaforo-dot {
+  display: inline-block;
+  flex: none;
+  width: 12px;
+  height: 12px;
+  margin-top: 4px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+
+  &--0 {
+    background: #d63638;
+  }
+
+  &--1 {
+    background: #f0a30a;
+  }
+
+  &--2 {
+    background: #2e9e5b;
+  }
+
+  &--grande {
+    width: 18px;
+    height: 18px;
+    margin-top: 0;
+  }
+}
+
+.semaforo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+
+  .semaforo-dot {
+    margin-top: 0;
+  }
+}
+
+.seo-semaforo {
+  margin-top: 16px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid rgba(0, 79, 113, 0.14);
+  border-radius: 12px;
+
+  .seo-semaforo__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    font-size: 16px;
+  }
+
+  .seo-semaforo__anteprima {
+    display: grid;
+    gap: 2px;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+  }
+
+  .seo-semaforo__url {
+    font-size: 13px;
+    color: #202124;
+  }
+
+  .seo-semaforo__titolo {
+    font-size: 20px;
+    line-height: 1.3;
+    color: #1a0dab;
+  }
+
+  .seo-semaforo__descrizione {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #4d5156;
+  }
+
+  .seo-semaforo__lista {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+}
+
+/* Pannello iniziale: le sezioni come grandi pulsanti */
+.dashboard-sezioni {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  margin-bottom: 32px;
+
+  a {
+    display: block;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid rgba(0, 79, 113, 0.12);
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(0, 79, 113, 0.06), 0 6px 16px rgba(0, 79, 113, 0.06);
+    color: var(--iside-blue);
+    text-decoration: none;
+    transition: box-shadow 150ms;
+
+    &:hover {
+      box-shadow: 0 2px 4px rgba(0, 79, 113, 0.08), 0 10px 24px rgba(0, 79, 113, 0.1);
+    }
+  }
+
+  strong {
+    display: block;
+    font-family: Georgia, "Merriweather", serif;
+    font-size: 20px;
+  }
+
+  span {
+    display: block;
+    margin-top: 4px;
+    font-size: 14px;
+    color: #4a5a63;
+  }
+}
+
+/* Icone e tendina a destra del menu laterale */
+.nav-pagine {
+  .nav-pagine__link {
+    gap: 12px;
+  }
+
+  .nav-pagine__icona {
+    flex: none;
+    opacity: 0.9;
+  }
+}
+
+.nav-pagine__tendina {
+  position: fixed;
+  z-index: 200;
+  min-width: 220px;
+  padding: 8px 0;
+  background: #00334a;
+  color: #fff;
+  border-radius: 0 10px 10px 0;
+  box-shadow: 8px 8px 24px rgba(0, 20, 32, 0.35);
+
+  .nav-pagine__tendina-titolo {
+    margin: 0;
+    padding: 6px 16px 8px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .nav-pagine__tendina-voce {
+    display: block;
+    padding: 9px 16px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 15px;
+
+    &:hover,
+    &:focus-visible {
+      background: rgba(255, 255, 255, 0.14);
+      outline: none;
+    }
+  }
+}
+
+/* Pulsante «Aggiungi pagina» accanto al titolo dell'elenco */
+.pagine-view__testa {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+
+  h1 {
+    margin: 0;
+  }
+
+  .pagine-view__aggiungi {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 18px;
+    background: var(--iside-blue);
+    color: #fff;
+    border-radius: 9999px;
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+      background: var(--iside-blue-hover);
+    }
+  }
+}

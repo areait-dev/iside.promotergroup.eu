@@ -1,10 +1,14 @@
-import { SITE, isTodo } from "@/config/site";
+import { isTodo } from "@/config/site";
+import { getTesti } from "@/lib/page-data";
+import { getSite } from "@/lib/site-data";
 
 /**
  * Mappa Google incorporata. Si carica da sola: l'iframe è `lazy`, quindi parte quando si scorre fino ai contatti.
  * Google può impostare propri cookie: la cookie policy (/cookie) lo dichiara.
  */
-export default function MapEmbed() {
+export default async function MapEmbed() {
+  const SITE = await getSite();
+  const T = (await getTesti()).contatti;
   const hasEmbed = !isTodo(SITE.mapsEmbed);
   const hasLink = !isTodo(SITE.mapsLink);
 
@@ -28,7 +32,7 @@ export default function MapEmbed() {
           rel="noopener noreferrer"
           className="inline-flex min-h-11 items-center justify-self-start text-md font-semibold text-water underline underline-offset-4 decoration-from-font hover:text-night"
         >
-          Apri su Google Maps (si apre in una nuova scheda)
+          {T.apriMappa} (si apre in una nuova scheda)
         </a>
       )}
     </div>
