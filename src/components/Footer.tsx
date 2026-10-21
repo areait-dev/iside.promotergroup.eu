@@ -13,8 +13,8 @@ export default function Footer() {
 
   return (
     <footer className="on-dark bg-night text-inverse">
-      <div className="page-container grid gap-s7 py-s8 md:grid-cols-[1.2fr_1fr_1fr] md:gap-s8 md:py-s9">
-        <div>
+      <div className="page-container grid grid-cols-2 gap-x-s5 gap-y-s7 py-s8 md:grid-cols-[1.2fr_1fr_1fr] md:gap-s8 md:py-s9">
+        <div className="col-span-2 md:col-span-1">
           <Link href="/" aria-label="Iside — Events | Lounge | Living, vai alla home" className="inline-block rounded-xs">
             <Image src="/images/iside-testo-bianco.png" alt="" width={1305} height={526} className="h-20 w-auto" />
           </Link>
@@ -29,7 +29,7 @@ export default function Footer() {
           </address>
         </div>
 
-        <nav aria-label="Pagine del sito">
+        <nav aria-label="Pagine del sito" className="min-w-0">
           <p className="font-display text-lg font-bold">Il sito</p>
           <ul className="mt-s2 grid">
             {[HOME_LINK, ...MENU_LINKS].map((l) => (
@@ -47,7 +47,7 @@ export default function Footer() {
           </ul>
         </nav>
 
-        <div>
+        <div className="min-w-0">
           <p className="font-display text-lg font-bold">Seguici</p>
           <ul className="mt-s2 grid">
             {social.map((s) => (
@@ -74,10 +74,10 @@ export default function Footer() {
             </p>
           </div>
           <p className="flex gap-s5">
-            <Link href="/privacy" className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-white">
+            <Link href="/privacy" className="inline-flex min-h-11 min-w-11 items-center underline underline-offset-4 hover:text-white">
               Privacy
             </Link>
-            <Link href="/cookie" className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-white">
+            <Link href="/cookie" className="inline-flex min-h-11 min-w-11 items-center underline underline-offset-4 hover:text-white">
               Cookie
             </Link>
           </p>

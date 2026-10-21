@@ -61,6 +61,13 @@
   --action-bar-height: 64px;
 }
 
+/* Telefoni stretti (320–389px): titolo hero più piccolo, così resta in 3 righe e le CTA restano visibili */
+@media (max-width: 389px) {
+  :root {
+    --font-size-3xl: 32px;
+  }
+}
+
 @media (min-width: 768px) {
   :root {
     --page-gutter: var(--space-7);

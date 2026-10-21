@@ -39,7 +39,7 @@ export default function Hero() {
           Situata al centro della Valle dell’Ippari, a due passi dall’aeroporto di Comiso e da Vittoria, la struttura è composta da un
           Centro Congressi e da un’ampia area living con piscina, giardino e gazebi.
         </p>
-        <div className="mt-s6 flex flex-col gap-s3 sm:flex-row">
+        <div className="mt-s6 flex flex-col gap-s3 md:flex-row">
           <Link
             href="/eventi-privati#richiesta-privati"
             className="inline-flex min-h-12 items-center justify-center rounded-pill bg-sun px-s6 text-md font-semibold text-night transition-[filter] duration-(--duration-fast) ease-standard hover:brightness-105 active:brightness-95"

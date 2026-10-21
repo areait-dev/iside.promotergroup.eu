@@ -85,7 +85,7 @@ export default function EventiPrivati() {
       )}
 
       <section id="richiesta-privati" aria-labelledby="richiesta-privati-title" className="bg-raised py-s8 md:py-s9">
-        <div className="page-container grid gap-s7 md:grid-cols-[1fr_1.4fr] md:gap-s9">
+        <div className="page-container grid gap-s7 lg:grid-cols-[1fr_1.4fr] lg:gap-s9">
           <div>
             <h2 id="richiesta-privati-title" className="font-display text-2xl font-bold text-ink">
               Richiedi un preventivo

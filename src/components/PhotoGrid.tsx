@@ -47,6 +47,22 @@ export default function PhotoGrid({ photos, label, className = "" }: { photos: P
     };
   }, [open, go]);
 
+  // Swipe orizzontale nel lightbox (telefono e tablet): oltre 50px cambia foto, i movimenti verticali vengono ignorati.
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    touchStart.current = { x: t.clientX, y: t.clientY };
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (!start || count < 2) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - start.x;
+    const dy = t.clientY - start.y;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? 1 : -1);
+  };
+
   const current = index === null ? null : photos[index];
   const nav =
     "absolute top-1/2 z-10 inline-flex size-12 -translate-y-1/2 items-center justify-center rounded-pill bg-night/70 text-inverse hover:bg-night focus-visible:outline-white";
@@ -85,7 +101,7 @@ export default function PhotoGrid({ photos, label, className = "" }: { photos: P
         className="on-dark m-0 size-full max-h-none max-w-none bg-night p-0 text-inverse backdrop:bg-night/80"
       >
         {current && (
-          <figure className="relative flex size-full flex-col">
+          <figure className="relative flex size-full touch-pan-y flex-col" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
             <div className="relative min-h-0 flex-1" onClick={(e) => e.target === e.currentTarget && dialogRef.current?.close()}>
               <Image
                 key={current.src}

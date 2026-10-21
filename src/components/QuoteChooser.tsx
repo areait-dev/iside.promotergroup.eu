@@ -27,7 +27,7 @@ export default function QuoteChooser({ initialKind }: { initialKind: Kind | "" }
   };
 
   return (
-    <div className="page-container grid gap-s7 pb-s8 md:grid-cols-[1fr_1.4fr] md:gap-s9 md:pb-s9">
+    <div className="page-container grid gap-s7 pb-s8 lg:grid-cols-[1fr_1.4fr] lg:gap-s9 md:pb-s9">
       <div>
         <div role="group" aria-labelledby="tipo-legend">
           <p id="tipo-legend" className="font-display text-xl font-bold text-ink">

@@ -54,7 +54,8 @@ export default function Header() {
     if (!open) return;
     const header = headerRef.current!;
     document.body.style.overflow = "hidden";
-    header.querySelector<HTMLElement>("#menu-panel a")?.focus();
+    // Il focus va al pannello (senza anello), non al primo link: altrimenti "Home" compare cerchiato appena si apre il menu.
+    header.querySelector<HTMLElement>("#menu-panel")?.focus();
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -108,6 +109,13 @@ export default function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-s1">
+          {/* Da tablet in su la barra azioni in basso non c'è: la CTA sta nell'header */}
+          <Link
+            href={CTA.href}
+            className="mr-s1 hidden min-h-11 items-center whitespace-nowrap rounded-pill bg-sun px-s5 text-md font-semibold text-night transition-[filter] duration-(--duration-fast) hover:brightness-105 active:brightness-95 md:inline-flex"
+          >
+            {CTA.short}
+          </Link>
           <a href={PHONE_HREF} className={iconBtn}>
             <PhoneIcon />
             <span className="sr-only-text">Chiama</span>
@@ -132,17 +140,17 @@ export default function Header() {
         aria-modal="true"
         aria-label="Menu principale"
         hidden={!open}
-        className="fixed inset-0 -z-10 overflow-y-auto bg-night pt-header lg:hidden"
+        tabIndex={-1}
+        className="fixed inset-0 -z-10 overflow-y-auto bg-night pt-header outline-none lg:hidden"
       >
-        <nav aria-label="Menu mobile" className="page-container flex min-h-full flex-col justify-between gap-s7 py-s7">
-          <Image src="/images/logo-stacked-white.png" alt="" width={1717} height={1468} className="mx-auto mb-s4 h-auto w-40" />
+        <nav aria-label="Menu mobile" className="page-container flex flex-col gap-s7 py-s6">
           <ul className="flex flex-col">
             {[HOME_LINK, ...MENU_LINKS].map((l) => (
               <li key={l.href} className="border-b border-white/15">
                 <Link
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="block py-s4 font-display text-2xl font-semibold text-inverse hover:text-white/70"
+                  className="flex min-h-14 items-center py-s3 font-display text-xl font-semibold text-inverse hover:text-white/70 md:text-2xl"
                 >
                   {l.label}
                 </Link>
