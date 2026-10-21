@@ -29,7 +29,7 @@ export default function Hero() {
       <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(to_top,rgb(0_79_113/0.86)_0%,rgb(0_79_113/0.8)_45%,rgb(0_79_113/0.3)_75%,rgb(0_79_113/0)_100%)]" />
       <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(to_right,rgb(0_79_113/0.45)_0%,rgb(0_79_113/0.2)_55%,rgb(0_79_113/0)_100%)]" />
       <div className="page-container relative pb-s8 pt-header md:pb-s9">
-        <h1 id={titleId} className="max-w-[16ch] font-display text-3xl font-bold leading-[1.05] tracking-tight text-balance">
+        <h1 id={titleId} className="max-w-[16ch] font-display text-3xl font-bold leading-[1.2] tracking-tight text-balance">
           <span className="block">Lo spazio ideale</span>
           <span className="block">per i tuoi eventi</span>
           <span className="block">business &amp; privati</span>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FacebookIcon, InstagramIcon, LinkedinIcon } from "./icons";
-import { CTA, HOME_LINK, MENU_LINKS, PHONE_HREF, SITE, isTodo } from "@/config/site";
+import { FacebookIcon, InstagramIcon, LinkedinIcon, WhatsappIcon } from "./icons";
+import { CTA, HOME_LINK, MENU_LINKS, PHONE_HREF, SITE, WHATSAPP_HREF, isTodo } from "@/config/site";
 
 const link = "inline-flex min-h-11 min-w-11 items-center text-md text-ink underline-offset-4 hover:underline";
 
@@ -10,6 +10,7 @@ export default function Footer() {
     { label: "Instagram", href: SITE.social.instagram, Icon: InstagramIcon },
     { label: "Facebook", href: SITE.social.facebook, Icon: FacebookIcon },
     { label: "LinkedIn", href: SITE.social.linkedin, Icon: LinkedinIcon },
+    { label: "WhatsApp", href: WHATSAPP_HREF ?? "", Icon: WhatsappIcon },
   ].filter((s) => !isTodo(s.href));
 
   return (
