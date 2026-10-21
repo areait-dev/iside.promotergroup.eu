@@ -17,16 +17,25 @@ import { Home } from "./globals/Home";
 import { AreaLiving, CentroCongressi, Cucina, EventiAziendali, EventiPrivati, FasciaFinale, Testi } from "./globals/pages";
 import { Menu } from "./globals/Menu";
 import { SiteSettings } from "./globals/SiteSettings";
+import { migrations } from "./migrations";
+import { migrations as migrationsPg } from "./migrations-pg";
 import { seedSiteSettings } from "./lib/seed";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const DATABASE_URL = process.env.DATABASE_URL;
+// Su Vercel capita di incollare il valore con virgolette o spazi: li tolgo.
+const DATABASE_URL = process.env.DATABASE_URL?.trim().replace(/^["']|["']$/g, "");
 const usaPostgres = /^postgres(ql)?:\/\//.test(DATABASE_URL ?? "");
+// Online un file SQLite locale sarebbe vuoto (disco effimero): meglio fermarsi che pubblicare pagine senza dati.
+if (process.env.VERCEL && !usaPostgres && !process.env.DATABASE_URI) {
+  throw new Error("Database non configurato: su Vercel imposta DATABASE_URL (Postgres/Supabase) oppure DATABASE_URI (Turso).");
+}
+// SQLite/libsql: file locale in sviluppo, Turso (libsql://…) online.
+const DATABASE_URI = process.env.DATABASE_URI || "file:./data/payload.db";
 const usaS3 = Boolean(process.env.S3_BUCKET && process.env.S3_ENDPOINT && process.env.S3_ACCESS_KEY_ID && process.env.S3_SECRET_ACCESS_KEY && process.env.S3_PUBLIC_URL);
 
-// Il file SQLite locale vive in ./data: va creata prima del primo avvio (su Vercel il disco è di sola lettura e non serve).
-if (!usaPostgres) fs.mkdirSync(path.resolve(dirname, "../data"), { recursive: true });
+// Il file SQLite locale vive in ./data: va creata prima del primo avvio (con Turso o Postgres non serve).
+if (!usaPostgres && DATABASE_URI.startsWith("file:")) fs.mkdirSync(path.resolve(dirname, "../data"), { recursive: true });
 
 export default buildConfig({
   admin: {
@@ -65,10 +74,19 @@ export default buildConfig({
     }),
   }),
   secret: process.env.PAYLOAD_SECRET || "",
-  // In locale un file SQLite; con DATABASE_URL che inizia per postgres (Supabase) si usa Postgres.
+  // In locale un file SQLite; online Turso (DATABASE_URI + DATABASE_AUTH_TOKEN) con lo schema creato dalle migrazioni.
+  // Con DATABASE_URL che inizia per postgres (Supabase) si usa invece Postgres.
   db: usaPostgres
-    ? postgresAdapter({ pool: { connectionString: DATABASE_URL, max: 3 } })
-    : sqliteAdapter({ client: { url: DATABASE_URL || "file:./data/payload.db" } }),
+    ? postgresAdapter({
+        pool: { connectionString: DATABASE_URL, max: 3 },
+        // Postgres ha le sue migrazioni (dialetto diverso da SQLite).
+        migrationDir: path.resolve(process.cwd(), "src/migrations-pg"),
+        prodMigrations: migrationsPg,
+      })
+    : sqliteAdapter({
+        client: { url: DATABASE_URI, authToken: process.env.DATABASE_AUTH_TOKEN },
+        prodMigrations: migrations,
+      }),
   // Le foto vanno su Supabase Storage quando le variabili S3_* sono presenti; senza, restano nella cartella /media.
   plugins: usaS3
     ? [
@@ -91,6 +109,8 @@ export default buildConfig({
     : [],
   sharp,
   onInit: async (payload) => {
+    // Durante `next build` lo schema può non esistere ancora e il seed non serve: ci pensa `npm run seed`.
+    if (process.env.NEXT_PHASE === "phase-production-build") return;
     await seedSiteSettings(payload);
   },
   typescript: { outputFile: path.resolve(dirname, "payload-types.ts") },

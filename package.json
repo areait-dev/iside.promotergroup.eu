@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run db:migrate && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:migrate": "node scripts/run.mjs scripts/db.ts migrate",
+    "db:migrate:create": "node scripts/run.mjs scripts/db.ts migrate:create",
+    "seed": "node scripts/run.mjs scripts/seed.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.91.0",
@@ -28,6 +31,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "esbuild": "^0.25.12",
     "eslint": "^9",
     "eslint-config-next": "16.4.2",
     "tailwindcss": "^4",
