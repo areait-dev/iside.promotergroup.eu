@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { CloseIcon, MenuIcon, PhoneIcon } from "./icons";
 import { CTA, HOME_LINK, MENU_LINKS, PHONE_HREF } from "@/config/site";
 import { visibleById } from "@/lib/dom";
+import { NETWORKS } from "./SocialRail";
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 const HEADER_HEIGHT = 64;
@@ -157,6 +158,23 @@ export default function Header() {
           >
             {CTA.label}
           </Link>
+          {NETWORKS.length > 0 && (
+            <ul className="flex gap-s1">
+              {NETWORKS.map(({ label, href, Icon }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex size-11 items-center justify-center rounded-xs text-inverse hover:opacity-70"
+                  >
+                    <Icon className="size-6" />
+                    <span className="sr-only-text">{label} (si apre in una nuova scheda)</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
         </nav>
       </div>
     </header>

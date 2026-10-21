@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { FacebookIcon, InstagramIcon, LinkedinIcon } from "./icons";
 import { SITE, isTodo } from "@/config/site";
 
-const NETWORKS = [
+export const NETWORKS = [
   { label: "Instagram", href: SITE.social.instagram, Icon: InstagramIcon },
   { label: "Facebook", href: SITE.social.facebook, Icon: FacebookIcon },
   { label: "LinkedIn", href: SITE.social.linkedin, Icon: LinkedinIcon },
@@ -18,7 +18,7 @@ function darkAt(x: number, y: number, rail: HTMLElement): boolean {
 }
 
 /**
- * Icone social fisse sul bordo sinistro, senza sfondo: seguono lo scroll, sono bianche sulle aree scure
+ * Icone social fisse sul bordo sinistro (da tablet in su: su mobile coprirebbero il testo, lì stanno nel menu), senza sfondo: seguono lo scroll, sono bianche sulle aree scure
  * e blu Iside su quelle chiare, e lasciano il posto al footer, che ha già i link.
  */
 export default function SocialRail() {
@@ -65,7 +65,7 @@ export default function SocialRail() {
       ref={railRef}
       aria-label="Social"
       inert={footerVisible}
-      className={`fixed left-0 top-1/2 z-30 flex -translate-y-1/2 flex-col transition-opacity duration-(--duration-normal) ease-standard ${
+      className={`fixed left-0 top-1/2 z-30 hidden -translate-y-1/2 flex-col md:flex transition-opacity duration-(--duration-normal) ease-standard ${
         footerVisible ? "opacity-0" : "opacity-100"
       }`}
     >
