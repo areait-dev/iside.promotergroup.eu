@@ -65,7 +65,7 @@ export default function ActionBar() {
         )}
         <Link
           href={CTA.href}
-          className="flex min-h-11 flex-[1.3] items-center justify-center gap-s1 rounded-pill bg-sun px-s4 text-md font-semibold text-night transition-[filter] duration-(--duration-fast) hover:brightness-105 active:brightness-95"
+          className="flex min-h-11 flex-[1.3] items-center justify-center gap-s1 rounded-pill bg-white px-s4 text-md font-semibold text-night transition-[filter] duration-(--duration-fast) hover:brightness-95 active:brightness-90"
         >
           <CalendarIcon className="size-5" />
           {CTA.short}

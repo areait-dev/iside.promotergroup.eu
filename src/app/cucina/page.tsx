@@ -103,7 +103,7 @@ export default function Cucina() {
             Chiamaci per prenotare. Se stai organizzando una festa o una cena aziendale, richiedi un preventivo.
           </p>
           <div className="mt-s6 flex flex-col gap-s3 md:flex-row">
-            <a href={PHONE_HREF} className={`${button} bg-sun text-night hover:brightness-105 active:brightness-95`}>
+            <a href={PHONE_HREF} className={`${button} bg-white text-night hover:brightness-95 active:brightness-90`}>
               Chiama {SITE.phone.display}
             </a>
             <Link

@@ -53,7 +53,7 @@ export default function Home() {
                     {/* altezza riservata per 2 righe: i titoli restano alla stessa altezza anche con descrizioni di lunghezza diversa */}
                     <span className="mt-s1 block min-h-12 max-w-[34ch] text-md text-white md:min-h-[4.5rem] lg:min-h-12">{c.text}</span>
                   </span>
-                  <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-pill bg-sun text-night transition-transform duration-(--duration-fast) ease-standard group-hover:translate-x-1">
+                  <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-pill bg-white text-night transition-transform duration-(--duration-fast) ease-standard group-hover:translate-x-1">
                     <ArrowRightIcon />
                     <span className="sr-only-text">Vai a {c.title}</span>
                   </span>

@@ -42,7 +42,7 @@ export default function Hero() {
         <div className="mt-s6 flex flex-col gap-s3 md:flex-row">
           <Link
             href="/eventi-privati#richiesta-privati"
-            className="inline-flex min-h-12 items-center justify-center rounded-pill bg-sun px-s6 text-md font-semibold text-night transition-[filter] duration-(--duration-fast) ease-standard hover:brightness-105 active:brightness-95"
+            className="inline-flex min-h-12 items-center justify-center rounded-pill bg-white px-s6 text-md font-semibold text-night transition-[filter] duration-(--duration-fast) ease-standard hover:brightness-95 active:brightness-90"
           >
             Organizza la tua festa
           </Link>

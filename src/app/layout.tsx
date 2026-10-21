@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Karla, Merriweather } from "next/font/google";
 import ActionBar from "@/components/ActionBar";
+import SocialRail from "@/components/SocialRail";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { CAPACITY, SITE, isTodo } from "@/config/site";
@@ -89,6 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
         <Footer />
         <ActionBar />
+        <SocialRail />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: venueJsonLd() }} />
       </body>
     </html>

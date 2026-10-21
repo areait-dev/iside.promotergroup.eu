@@ -109,13 +109,6 @@ export default function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-s1">
-          {/* Da tablet in su la barra azioni in basso non c'è: la CTA sta nell'header */}
-          <Link
-            href={CTA.href}
-            className="mr-s1 hidden min-h-11 items-center whitespace-nowrap rounded-pill bg-sun px-s5 text-md font-semibold text-night transition-[filter] duration-(--duration-fast) hover:brightness-105 active:brightness-95 md:inline-flex"
-          >
-            {CTA.short}
-          </Link>
           <a href={PHONE_HREF} className={iconBtn}>
             <PhoneIcon />
             <span className="sr-only-text">Chiama</span>
@@ -160,7 +153,7 @@ export default function Header() {
           <Link
             href={CTA.href}
             onClick={() => setOpen(false)}
-            className="inline-flex min-h-12 items-center justify-center rounded-pill bg-sun px-s6 text-md font-semibold text-night transition-[filter] duration-(--duration-fast) hover:brightness-105"
+            className="inline-flex min-h-12 items-center justify-center rounded-pill bg-white px-s6 text-md font-semibold text-night transition-[filter] duration-(--duration-fast) hover:brightness-95"
           >
             {CTA.label}
           </Link>

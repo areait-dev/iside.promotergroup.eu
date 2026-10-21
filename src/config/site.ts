@@ -58,8 +58,8 @@ export const SITE = {
 
   social: {
     instagram: "https://www.instagram.com/iside_events/",
-    facebook: todo("URL pagina Facebook"),
-    linkedin: todo("URL pagina LinkedIn (showcase isideevents)"),
+    facebook: "https://www.facebook.com/isideevents",
+    linkedin: "https://www.linkedin.com/showcase/isideevents/",
   },
 } as const;
 
