@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { CloseIcon, MenuIcon, PhoneIcon } from "./icons";
-import { CTA, HOME_LINK, MENU_LINKS, PHONE_HREF } from "@/config/site";
+import { CloseIcon, MenuIcon, PhoneIcon, WhatsappIcon } from "./icons";
+import { CTA, HOME_LINK, MENU_LINKS, PHONE_HREF, WHATSAPP_HREF } from "@/config/site";
 import { visibleById } from "@/lib/dom";
 import { NETWORKS } from "./SocialRail";
 
@@ -110,6 +110,12 @@ export default function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-s1">
+          {WHATSAPP_HREF && (
+            <a href={WHATSAPP_HREF} target="_blank" rel="noopener noreferrer" className={iconBtn}>
+              <WhatsappIcon />
+              <span className="sr-only-text">Scrivici su WhatsApp (si apre in una nuova scheda)</span>
+            </a>
+          )}
           <a href={PHONE_HREF} className={iconBtn}>
             <PhoneIcon />
             <span className="sr-only-text">Chiama</span>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { CalendarIcon, ChatIcon, PhoneIcon } from "./icons";
+import { CalendarIcon, PhoneIcon, WhatsappIcon } from "./icons";
 import { CTA, PHONE_HREF, WHATSAPP_HREF } from "@/config/site";
 import { visibleById } from "@/lib/dom";
 
@@ -59,7 +59,7 @@ export default function ActionBar() {
         </a>
         {WHATSAPP_HREF && (
           <a href={WHATSAPP_HREF} className={item}>
-            <ChatIcon className="size-5" />
+            <WhatsappIcon className="size-5" />
             WhatsApp
           </a>
         )}

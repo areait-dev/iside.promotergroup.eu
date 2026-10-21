@@ -41,7 +41,7 @@ export const SITE = {
   phone: { display: "0932 1618964", e164: "+3909321618964" },
   email: "iside@promotergroup.eu",
   /** Numero WhatsApp in formato internazionale senza "+" (es. "393331234567"). Se è TODO il pulsante non compare. */
-  whatsappNumber: todo("numero WhatsApp (formato 39333…)"),
+  whatsappNumber: "393920702561",
 
   /** Indirizzo completo: compilare le parti in ADDRESS_PARTS; `address` (footer, contatti) si compone da sé. */
   address: ADDRESS_FULL,
