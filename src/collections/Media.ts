@@ -4,6 +4,7 @@ import { revalidatePages } from "../lib/revalidate";
 /** Foto del sito. Il testo alternativo è obbligatorio: serve a chi usa uno screen reader e a Google. */
 export const Media: CollectionConfig = {
   slug: "media",
+  disableDuplicate: true,
   labels: { singular: "Foto", plural: "Foto" },
   admin: { useAsTitle: "alt", group: false },
   access: { read: () => true },

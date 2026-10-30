@@ -9,7 +9,8 @@
     "lint": "eslint",
     "db:migrate": "node scripts/run.mjs scripts/db.ts migrate",
     "db:migrate:create": "node scripts/run.mjs scripts/db.ts migrate:create",
-    "seed": "node scripts/run.mjs scripts/seed.ts"
+    "seed": "node scripts/run.mjs scripts/seed.ts",
+    "admin:crea": "node scripts/run.mjs scripts/crea-admin.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.91.0",

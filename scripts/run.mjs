@@ -6,6 +6,15 @@ import { mkdirSync } from "node:fs";
 import { basename, resolve } from "node:path";
 import { build } from "esbuild";
 
+// Come Next.js: carica .env.local e .env (senza sovrascrivere le variabili già impostate nella shell).
+for (const file of [".env.local", ".env"]) {
+  try {
+    process.loadEnvFile(file);
+  } catch {
+    // file assente: si prosegue
+  }
+}
+
 const [entry, ...args] = process.argv.slice(2);
 if (!entry) {
   console.error("Uso: node scripts/run.mjs <script.ts> [argomenti]");

@@ -124,6 +124,8 @@ export const Pagine: CollectionConfig = {
     listSearchableFields: ["titolo", "slug"],
   },
   defaultSort: "-updatedAt",
+  // Il sito non ha news o articoli da replicare: niente «Duplica»
+  disableDuplicate: true,
   access: {
     // Il pubblico vede solo le pagine pubblicate; chi è nel pannello vede anche le bozze.
     read: ({ req }) => (req.user ? true : { stato: { equals: "pubblicata" } }),

@@ -13,6 +13,7 @@ export const Users: CollectionConfig = {
   labels: { singular: "Utente", plural: "Utenti" },
   admin: { useAsTitle: "email", defaultColumns: ["nome", "email", "ruolo"], group: false },
   auth: true,
+  disableDuplicate: true,
   access: {
     // Ognuno vede e modifica sé stesso; solo l'amministratore vede gli altri, li crea e li elimina.
     read: ({ req }) => (isAdmin({ req } as never) ? true : req.user ? { id: { equals: req.user.id } } : false),

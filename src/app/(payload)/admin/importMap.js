@@ -22,13 +22,14 @@ import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997e
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { default as default_71601b020c73dab682b435f743876d4c } from '../../../components/admin/SeoSemaforo'
+import { default as default_2a333af2285cca14e47a2f1bbeec8788 } from '../../../components/admin/AdminBar'
 import { default as default_dfe4008080d895d460898c3a6155e9ba } from '../../../components/admin/Icon'
 import { default as default_91a09b539d3c86b0aebf520e7564ce08 } from '../../../components/admin/Logo'
 import { default as default_3849dd43f003c13998debe4d496fcdba } from '../../../components/admin/BackToSite'
 import { default as default_33f037dcb8950e7b5e6f0480c9cc4430 } from '../../../components/admin/ViewSiteLink'
-import { default as default_2da26c6cd2bd1f04b5d868880cfce133 } from '../../../components/admin/DashboardSezioni'
 import { default as default_7b77c0a8bf5649eadd846d28c5d927eb } from '../../../components/admin/LoginIntro'
 import { default as default_f496950f1ee9c65b6f30b3cd9901ce26 } from '../../../components/admin/NavPagine'
+import { default as default_f16ddf9c21d07f0b264fb827e3c04cac } from '../../../components/admin/BachecaView'
 import { default as default_6061fae17d48c080307a06a44ee0a92f } from '../../../components/admin/PagineView'
 import { default as default_3603797cb5447c750284ffc054732a1b } from '../../../components/admin/ImpostazioniView'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
@@ -60,13 +61,14 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "/components/admin/SeoSemaforo#default": default_71601b020c73dab682b435f743876d4c,
+  "/components/admin/AdminBar#default": default_2a333af2285cca14e47a2f1bbeec8788,
   "/components/admin/Icon#default": default_dfe4008080d895d460898c3a6155e9ba,
   "/components/admin/Logo#default": default_91a09b539d3c86b0aebf520e7564ce08,
   "/components/admin/BackToSite#default": default_3849dd43f003c13998debe4d496fcdba,
   "/components/admin/ViewSiteLink#default": default_33f037dcb8950e7b5e6f0480c9cc4430,
-  "/components/admin/DashboardSezioni#default": default_2da26c6cd2bd1f04b5d868880cfce133,
   "/components/admin/LoginIntro#default": default_7b77c0a8bf5649eadd846d28c5d927eb,
   "/components/admin/NavPagine#default": default_f496950f1ee9c65b6f30b3cd9901ce26,
+  "/components/admin/BachecaView#default": default_f16ddf9c21d07f0b264fb827e3c04cac,
   "/components/admin/PagineView#default": default_6061fae17d48c080307a06a44ee0a92f,
   "/components/admin/ImpostazioniView#default": default_3603797cb5447c750284ffc054732a1b,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1,

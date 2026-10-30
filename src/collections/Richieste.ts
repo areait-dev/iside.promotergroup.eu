@@ -8,6 +8,7 @@ const loggato: Access = ({ req }) => Boolean(req.user);
  */
 export const Richieste: CollectionConfig = {
   slug: "richieste",
+  disableDuplicate: true,
   labels: { singular: "Richiesta", plural: "Richieste di preventivo" },
   admin: {
     group: false,

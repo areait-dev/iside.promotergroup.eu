@@ -44,10 +44,11 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(dirname) },
     theme: "light",
     components: {
+      header: ["/components/admin/AdminBar#default"],
       beforeNavLinks: ["/components/admin/NavPagine#default"],
-      beforeDashboard: ["/components/admin/DashboardSezioni#default"],
       afterNavLinks: ["/components/admin/ViewSiteLink#default"],
       views: {
+        dashboard: { Component: "/components/admin/BachecaView#default" },
         pagine: { Component: "/components/admin/PagineView#default", path: "/pagine" },
         impostazioni: { Component: "/components/admin/ImpostazioniView#default", path: "/impostazioni" },
       },

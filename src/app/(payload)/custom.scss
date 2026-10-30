@@ -1,11 +1,29 @@
-/* Pannello di amministrazione: colori e carattere del marchio Iside (blu #004f71, crema #fbf7ea). */
+/*
+ * Pannello di amministrazione con l'aspetto di WordPress (barra e menu quasi neri, fondo grigio chiaro,
+ * riquadri bianchi con bordo sottile, angoli poco arrotondati) e il blu del marchio Iside (#004f71) come colore di accento.
+ */
 :root {
   --iside-blue: #004f71;
   --iside-blue-hover: #1b7399;
-  --iside-cream: #fbf7ea;
+  --wp-nero: #1d2327;
+  --wp-nero-chiaro: #2c3338;
+  --wp-testo-menu: #f0f0f1;
+  --wp-grigio-menu: #a7aaad;
+  --wp-fondo: #f0f0f1;
+  --wp-bordo: #c3c4c7;
+  --wp-testo: #1d2327;
+  --wp-testo-tenue: #50575e;
+  --wp-ombra: 0 1px 1px rgba(0, 0, 0, 0.04);
+  --wp-barra: 32px;
+
+  --nav-width: 200px;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  --style-radius-s: 3px;
+  --style-radius-m: 4px;
+  --style-radius-l: 4px;
 }
 
-/* Tasto principale in blu Iside, ovunque nel pannello */
+/* Tasto principale in blu Iside, piatto come i pulsanti di WordPress */
 .btn--style-primary {
   --bg-color: var(--iside-blue);
   --color: #fff;
@@ -14,19 +32,87 @@
   --box-shadow-color: transparent;
 }
 
+/* ------------------------------------------------------------------
+ * Barra nera in alto («admin bar»)
+ * ------------------------------------------------------------------ */
+.admin-bar {
+  position: sticky;
+  top: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--wp-barra);
+  padding-inline: 4px;
+  background: var(--wp-nero);
+  color: var(--wp-testo-menu);
+  font-family: var(--font-body);
+  font-size: 13px;
+
+  .admin-bar__gruppo {
+    display: flex;
+    align-items: center;
+  }
+
+  .admin-bar__voce {
+    display: inline-flex;
+    align-items: center;
+    height: var(--wp-barra);
+    padding-inline: 10px;
+    color: var(--wp-testo-menu);
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--wp-nero-chiaro);
+      color: #72aee6;
+      outline: none;
+    }
+
+    &:focus-visible {
+      box-shadow: inset 0 0 0 2px #fff;
+    }
+  }
+
+  .admin-bar__voce--sito {
+    font-weight: 600;
+  }
+
+  .admin-bar__sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  @media (max-width: 720px) {
+    .admin-bar__voce:not(.admin-bar__voce--sito):not(:last-child) {
+      display: none;
+    }
+
+    strong {
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
 /*
- * Pagina di accesso e di creazione del primo utente, sul modello di next-auth-template:
- * scheda bianca centrata (400px) su sfondo a sfumatura radiale, con intestazione, modulo e link per tornare indietro.
+ * Pagina di accesso e di creazione del primo utente, come wp-login: fondo grigio chiaro e scheda bianca centrata (400px)
+ * con intestazione, modulo e link per tornare indietro.
  */
 .template-minimal {
-  background: radial-gradient(ellipse at top, var(--iside-blue-hover) 0%, var(--iside-blue) 55%, #00334a 100%);
+  background: var(--wp-fondo);
 
   .template-minimal__wrap {
     background: #fff;
-    border: 1px solid rgba(0, 79, 113, 0.12);
-    border-radius: 12px;
+    border: 1px solid var(--wp-bordo);
+    border-radius: 0;
     padding: 32px 28px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -2px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     max-width: 400px;
     width: 100%;
     box-sizing: border-box;
@@ -38,14 +124,15 @@
 
     h1 {
       margin: 16px 0 8px;
-      font-family: Georgia, "Merriweather", serif;
-      font-size: 26px;
-      color: var(--iside-blue);
+      font-family: var(--font-body);
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--wp-testo);
     }
 
     p {
       margin: 0;
-      color: #4a5a63;
+      color: var(--wp-testo-tenue);
     }
   }
 
@@ -65,30 +152,38 @@
 }
 
 /* ------------------------------------------------------------------
- * Pannello (dentro): sfondo crema, schede bianche, menu laterale blu
+ * Pannello (dentro): sfondo grigio chiaro, riquadri bianchi, menu laterale nero
  * ------------------------------------------------------------------ */
 
-/* Sfondo crema: le schede, i campi e le tabelle restano bianchi e ne escono in rilievo */
+/* Fondo grigio di WordPress: riquadri, campi e tabelle restano bianchi */
 html[data-theme="light"] {
-  --theme-bg: var(--iside-cream);
+  --theme-bg: var(--wp-fondo);
 }
 
 body {
-  font-family: "Karla", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: var(--font-body);
+  color: var(--wp-testo);
 }
 
-/* Titoli con il carattere del sito */
+/* Titoli di pagina leggeri, come «h1.wp-heading-inline» */
 .template-default h1,
 .doc-header__title,
 .dashboard h1 {
-  font-family: Georgia, "Merriweather", serif;
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--wp-testo);
+}
+
+a {
   color: var(--iside-blue);
 }
 
-/* Menu laterale blu Iside */
+/* Menu laterale nero come quello di WordPress, sotto la barra in alto */
 .nav {
-  --nav-text: rgba(255, 255, 255, 0.92);
-  background: var(--iside-blue);
+  --nav-text: var(--wp-testo-menu);
+  top: var(--wp-barra);
+  height: calc(100vh - var(--wp-barra));
+  background: var(--wp-nero);
   color: var(--nav-text);
   border-right: 0;
 
@@ -108,63 +203,72 @@ body {
   }
 
   svg {
-    color: var(--nav-text);
+    color: var(--wp-grigio-menu);
   }
 
   .nav__label {
     text-transform: uppercase;
     letter-spacing: 0.06em;
     font-size: 12px;
-    opacity: 0.75;
+    color: var(--wp-grigio-menu);
   }
 
   .nav__link {
-    border-radius: 8px;
+    border-radius: 0;
     padding-inline: 10px;
     transition: background-color 150ms;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: #fff;
+      background: transparent;
+      color: #72aee6;
+
+      svg {
+        color: #72aee6;
+      }
     }
   }
 
   .nav__link-indicator {
-    background: #fff;
+    display: none;
   }
 
   a[aria-current="page"],
   .nav__link--active {
-    background: rgba(255, 255, 255, 0.18);
+    background: var(--iside-blue);
     color: #fff;
-    font-weight: 700;
+    font-weight: 600;
+
+    svg {
+      color: #fff;
+    }
   }
 }
 
-/* Barra in alto: crema con una linea sottile sotto */
+/* Barra del titolo: bianca con una linea sottile sotto, come l'intestazione di WordPress */
 .app-header {
-  border-bottom: 1px solid rgba(0, 79, 113, 0.14);
+  background: #fff;
+  border-bottom: 1px solid var(--wp-bordo);
 }
 
-/* Schede (pannello iniziale) e blocchi */
+/* Schede (pannello iniziale) e blocchi: bordo sottile, quasi senza ombra, angoli appena smussati */
 .card,
 .dashboard .card {
   background: #fff;
-  border: 1px solid rgba(0, 79, 113, 0.12);
-  border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(0, 79, 113, 0.06), 0 6px 16px rgba(0, 79, 113, 0.06);
-  transition: box-shadow 150ms, transform 150ms;
+  border: 1px solid var(--wp-bordo);
+  border-radius: 4px;
+  box-shadow: var(--wp-ombra);
+  transition: border-color 150ms;
 
   &:hover {
-    box-shadow: 0 2px 4px rgba(0, 79, 113, 0.08), 0 10px 24px rgba(0, 79, 113, 0.1);
+    border-color: var(--iside-blue);
   }
 }
 
-/* Gruppi di campi e schede (tab): bordo azzurrino per staccarli dal fondo */
+/* Gruppi di campi e schede (tab) */
 .group-field,
 .array-field,
 .tabs-field {
-  border-color: rgba(0, 79, 113, 0.14);
+  border-color: var(--wp-bordo);
 }
 
 .tabs-field__tab-button--active {
@@ -172,12 +276,46 @@ body {
   border-bottom-color: var(--iside-blue);
 }
 
-/* Campi: bordo che riprende il blu al passaggio e al focus */
+/* Campi: bordo grigio scuro come in WordPress; al focus il blu con un anello sottile */
+.field-type input,
+.field-type textarea,
+.field-type select {
+  border-color: #8c8f94;
+  border-radius: 4px;
+}
+
 .field-type input:focus,
 .field-type textarea:focus,
 .field-type select:focus {
-  border-color: var(--iside-blue-hover);
-  box-shadow: 0 0 0 3px rgba(27, 115, 153, 0.2);
+  border-color: var(--iside-blue);
+  box-shadow: 0 0 0 1px var(--iside-blue);
+  outline: 2px solid transparent;
+}
+
+/* Pulsanti: rettangoli piatti, non pillole */
+.btn {
+  border-radius: 3px;
+}
+
+/* Elenchi (Richieste, Utenti, Foto): tabella bianca con bordo, intestazione chiara, righe a zebra */
+.table table {
+  background: #fff;
+  border: 1px solid var(--wp-bordo);
+  box-shadow: var(--wp-ombra);
+
+  thead th {
+    color: var(--wp-testo);
+    font-weight: 600;
+    border-bottom: 1px solid var(--wp-bordo);
+  }
+
+  tbody tr:nth-child(odd) {
+    background: #f6f7f7;
+  }
+
+  tbody tr:hover {
+    background: #f0f6fc;
+  }
 }
 
 /* ------------------------------------------------------------------
@@ -186,10 +324,10 @@ body {
 .nav-pagine {
   margin-bottom: 8px;
   padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid var(--wp-nero-chiaro);
 
   .nav__link {
-    font-weight: 700;
+    font-weight: 400;
   }
 }
 
@@ -198,21 +336,22 @@ body {
 
   h1 {
     margin: 0 0 8px;
+    font-size: 23px;
   }
 
   .pagine-view__intro {
     margin: 0 0 24px;
-    color: #4a5a63;
+    color: var(--wp-testo-tenue);
   }
 
   .pagine-view__table {
     width: 100%;
     border-collapse: collapse;
     background: #fff;
-    border: 1px solid rgba(0, 79, 113, 0.12);
-    border-radius: 12px;
+    border: 1px solid var(--wp-bordo);
+    border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 1px 2px rgba(0, 79, 113, 0.06), 0 6px 16px rgba(0, 79, 113, 0.06);
+    box-shadow: var(--wp-ombra);
   }
 
   th,
@@ -220,15 +359,15 @@ body {
     padding: 14px 16px;
     text-align: left;
     vertical-align: top;
-    border-bottom: 1px solid rgba(0, 79, 113, 0.1);
+    border-bottom: 1px solid #dcdcde;
   }
 
   thead th {
-    background: rgba(0, 79, 113, 0.06);
-    color: var(--iside-blue);
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    background: #fff;
+    color: var(--wp-testo);
+    font-size: 14px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--wp-bordo);
   }
 
   tbody tr:last-child td {
@@ -236,7 +375,7 @@ body {
   }
 
   tbody tr:hover {
-    background: rgba(0, 79, 113, 0.03);
+    background: #f0f6fc;
   }
 
   a {
@@ -252,7 +391,7 @@ body {
     display: block;
     margin-top: 2px;
     font-size: 13px;
-    color: #4a5a63;
+    color: var(--wp-testo-tenue);
   }
 
   .pagine-view__actions {
@@ -289,19 +428,20 @@ body {
   gap: 2px;
   margin-bottom: 8px;
   padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid var(--wp-nero-chiaro);
 
   .nav-pagine__link {
-    font-weight: 700;
-    font-size: 16px;
-    min-height: 40px;
+    font-weight: 400;
+    font-size: 14px;
+    min-height: 36px;
     display: flex;
     align-items: center;
   }
 
   .nav-pagine__link--attiva {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--iside-blue);
     color: #fff;
+    font-weight: 600;
   }
 }
 
@@ -351,8 +491,8 @@ body {
   margin-top: 16px;
   padding: 16px;
   background: #fff;
-  border: 1px solid rgba(0, 79, 113, 0.14);
-  border-radius: 12px;
+  border: 1px solid var(--wp-bordo);
+  border-radius: 4px;
 
   .seo-semaforo__head {
     display: flex;
@@ -415,40 +555,276 @@ body {
   }
 }
 
-/* Pannello iniziale: le sezioni come grandi pulsanti */
-.dashboard-sezioni {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  margin-bottom: 32px;
+/* ------------------------------------------------------------------
+ * Bacheca: riquadri come la dashboard di WordPress
+ * ------------------------------------------------------------------ */
+.bacheca {
+  padding-block: 24px 64px;
+
+  h1 {
+    margin: 0 0 16px;
+    font-size: 23px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
 
   a {
-    display: block;
-    padding: 20px;
-    background: #fff;
-    border: 1px solid rgba(0, 79, 113, 0.12);
-    border-radius: 12px;
-    box-shadow: 0 1px 2px rgba(0, 79, 113, 0.06), 0 6px 16px rgba(0, 79, 113, 0.06);
     color: var(--iside-blue);
-    text-decoration: none;
-    transition: box-shadow 150ms;
+  }
 
-    &:hover {
-      box-shadow: 0 2px 4px rgba(0, 79, 113, 0.08), 0 10px 24px rgba(0, 79, 113, 0.1);
+  .bacheca__benvenuto {
+    margin-bottom: 16px;
+    padding: 20px 24px;
+    background: #fff;
+    border: 1px solid var(--wp-bordo);
+    border-left: 4px solid var(--iside-blue);
+    box-shadow: var(--wp-ombra);
+
+    h2 {
+      font-size: 20px;
+      font-weight: 400;
+    }
+
+    p {
+      margin: 8px 0 16px;
+      max-width: 60ch;
+      color: var(--wp-testo-tenue);
     }
   }
 
-  strong {
-    display: block;
-    font-family: Georgia, "Merriweather", serif;
-    font-size: 20px;
+  .bacheca__benvenuto-azioni {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
-  span {
+  .bacheca__bottone {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 14px;
+    background: #f6f7f7;
+    color: var(--iside-blue);
+    border: 1px solid var(--iside-blue);
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      background: #f0f0f1;
+      color: var(--iside-blue-hover);
+      border-color: var(--iside-blue-hover);
+    }
+  }
+
+  .bacheca__bottone--primario {
+    background: var(--iside-blue);
+    color: #fff;
+
+    &:hover {
+      background: var(--iside-blue-hover);
+      color: #fff;
+    }
+  }
+
+  .bacheca__tessere {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
+
+    @media (min-width: 900px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .bacheca__tessera {
+    display: grid;
+    gap: 2px;
+    height: 100%;
+    padding: 14px 16px;
+    background: #fff;
+    border: 1px solid var(--wp-bordo);
+    box-shadow: var(--wp-ombra);
+    color: var(--wp-testo);
+    text-decoration: none;
+
+    strong {
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1.1;
+    }
+
+    span {
+      font-size: 13px;
+      color: var(--wp-testo-tenue);
+    }
+
+    &:hover {
+      border-color: var(--iside-blue);
+    }
+  }
+
+  /* Richieste da guardare: bordo e numero in blu, e la scritta resta leggibile anche senza il colore */
+  .bacheca__tessera--evidenza {
+    border-left: 4px solid var(--iside-blue);
+
+    strong {
+      color: var(--iside-blue);
+    }
+  }
+
+  .bacheca__colonne {
+    display: grid;
+    gap: 16px;
+    align-items: start;
+
+    @media (min-width: 1000px) {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    }
+  }
+
+  .bacheca__laterale {
+    display: grid;
+    gap: 16px;
+  }
+
+  .bacheca__box {
+    background: #fff;
+    border: 1px solid var(--wp-bordo);
+    box-shadow: var(--wp-ombra);
+
+    > h2 {
+      padding: 12px 16px;
+      border-bottom: 1px solid #dcdcde;
+    }
+  }
+
+  .bacheca__elenco {
+    margin: 0;
+    padding: 4px 16px 8px;
+    list-style: none;
+
+    li {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 4px 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f1;
+    }
+
+    li:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  .bacheca__nota {
     display: block;
-    margin-top: 4px;
-    font-size: 14px;
-    color: #4a5a63;
+    font-size: 12px;
+    color: var(--wp-testo-tenue);
+  }
+
+  .bacheca__elenco .bacheca__nota {
+    display: inline;
+  }
+
+  .bacheca__vuoto {
+    margin: 0;
+    padding: 16px;
+    color: var(--wp-testo-tenue);
+  }
+
+  .bacheca__piede {
+    margin: 0;
+    padding: 10px 16px;
+    border-top: 1px solid #dcdcde;
+    font-size: 13px;
+  }
+
+  .bacheca__piede--azioni {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+  }
+
+  .bacheca__utenti li a {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .bacheca__tabella {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      padding: 10px 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid #f0f0f1;
+    }
+
+    th {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--wp-testo-tenue);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    td:first-child a {
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
+      th:nth-child(2),
+      td:nth-child(2) {
+        display: none;
+      }
+    }
+  }
+}
+
+/* Stato di una richiesta: sempre scritto a parole, il colore è solo un aiuto */
+.stato-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid var(--wp-bordo);
+  border-radius: 3px;
+  background: #f6f7f7;
+  color: var(--wp-testo);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+
+  &--nuova {
+    background: var(--iside-blue);
+    border-color: var(--iside-blue);
+    color: #fff;
+  }
+
+  &--lavorazione,
+  &--inviato {
+    background: #fcf9e8;
+    border-color: #dba617;
+  }
+
+  &--confermata {
+    background: #edfaef;
+    border-color: #1f7a4d;
   }
 }
 
@@ -469,31 +845,34 @@ body {
   z-index: 200;
   min-width: 220px;
   padding: 8px 0;
-  background: #00334a;
-  color: #fff;
-  border-radius: 0 10px 10px 0;
-  box-shadow: 8px 8px 24px rgba(0, 20, 32, 0.35);
+  background: var(--wp-nero-chiaro);
+  color: var(--wp-testo-menu);
+  border-radius: 0 4px 4px 0;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
 
   .nav-pagine__tendina-titolo {
     margin: 0;
     padding: 6px 16px 8px;
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    opacity: 0.7;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
   }
 
   .nav-pagine__tendina-voce {
     display: block;
-    padding: 9px 16px;
-    color: #fff;
+    padding: 7px 16px;
+    color: var(--wp-grigio-menu);
     text-decoration: none;
-    font-size: 15px;
+    font-size: 13px;
 
     &:hover,
     &:focus-visible {
-      background: rgba(255, 255, 255, 0.14);
+      color: #72aee6;
       outline: none;
+    }
+
+    &:focus-visible {
+      box-shadow: inset 0 0 0 2px #fff;
     }
   }
 }
@@ -513,16 +892,189 @@ body {
   .pagine-view__aggiungi {
     display: inline-flex;
     align-items: center;
-    min-height: 40px;
-    padding: 0 18px;
-    background: var(--iside-blue);
-    color: #fff;
-    border-radius: 9999px;
-    font-weight: 700;
+    min-height: 32px;
+    padding: 0 12px;
+    background: #f6f7f7;
+    color: var(--iside-blue);
+    border: 1px solid var(--iside-blue);
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 600;
     text-decoration: none;
 
     &:hover {
-      background: var(--iside-blue-hover);
+      background: #f0f0f1;
+      color: var(--iside-blue-hover);
+      border-color: var(--iside-blue-hover);
     }
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Nessuna barra di scorrimento visibile (pagina e menu): si scorre comunque con rotella, tocco e tastiera
+ * ------------------------------------------------------------------ */
+html,
+body,
+.nav,
+.nav__wrap,
+.nav__scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Schermata di modifica: a sinistra i campi, a destra il riquadro «Pubblica» come in WordPress.
+ * Sono i controlli di Payload (stato, date, Salva/Pubblica, menu ⋮) riposizionati con la griglia:
+ * niente pulsanti duplicati. Sotto i 1025px resta la disposizione di Payload.
+ * ------------------------------------------------------------------ */
+@media (min-width: 1025px) {
+  .collection-edit {
+    .collection-edit__form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      grid-template-rows: auto 1fr;
+      gap: 16px 20px;
+      align-items: start;
+      padding: 20px var(--gutter-h) 64px;
+    }
+
+    /* Questi contenitori spariscono dalla griglia: i loro figli diventano elementi della griglia */
+    .collection-edit__main-wrapper,
+    .collection-edit__main,
+    .document-fields {
+      display: contents;
+    }
+
+    .document-fields,
+    .document-fields--has-sidebar {
+      --main-border: none;
+      --main-field-margin: 0;
+      --main-gutter-h-left: 0;
+      --main-gutter-h-right: 0;
+      --sidebar-gutter-h-left: 0;
+      --sidebar-gutter-h-right: 0;
+    }
+
+    /* Colonna sinistra: i campi in un riquadro bianco */
+    .document-fields__main {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      min-width: 0;
+      min-height: 0;
+    }
+
+    .document-fields__edit {
+      padding: 20px 24px;
+      background: #fff;
+      border: 1px solid var(--wp-bordo);
+      box-shadow: var(--wp-ombra);
+    }
+
+    /* Colonna destra, in alto: riquadro «Pubblica» */
+    .doc-controls {
+      grid-column: 2;
+      grid-row: 1;
+      position: static;
+      z-index: auto;
+      display: block;
+      background: #fff;
+      backdrop-filter: none;
+      border: 1px solid var(--wp-bordo);
+      box-shadow: var(--wp-ombra);
+      padding: 0;
+
+      &::before {
+        content: "Salva";
+        display: block;
+        padding: 10px 16px;
+        border-bottom: 1px solid #dcdcde;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .doc-controls__divider {
+        display: none;
+      }
+
+      .doc-controls__wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        height: auto;
+        padding: 0;
+      }
+
+      .doc-controls__content {
+        padding: 12px 16px;
+        overflow: visible;
+      }
+
+      .doc-controls__meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        width: 100%;
+      }
+
+      .doc-controls__list-item {
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      .doc-controls__value {
+        white-space: normal;
+      }
+
+      .doc-controls__controls-wrapper {
+        justify-content: flex-end;
+        padding: 10px 16px;
+        background: #f6f7f7;
+        border-top: 1px solid #dcdcde;
+      }
+
+      .doc-controls__controls {
+        flex: 1;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+    }
+
+    /* Colonna destra, sotto: i campi laterali (stato, indirizzo, note…) in un secondo riquadro */
+    .document-fields__sidebar-wrap {
+      grid-column: 2;
+      grid-row: 2;
+      position: static;
+      width: auto;
+      min-width: 0;
+      height: auto;
+
+      &:has(.document-fields__sidebar-fields > .render-fields:empty) {
+        display: none;
+      }
+    }
+
+    .document-fields__sidebar {
+      height: auto;
+      min-height: 0;
+      overflow: visible;
+    }
+
+    .document-fields__sidebar-fields {
+      padding: 16px;
+      background: #fff;
+      border: 1px solid var(--wp-bordo);
+      box-shadow: var(--wp-ombra);
+    }
+  }
+
+  /* Le pagine e le impostazioni del sito vanno online appena si salva: lì il riquadro si chiama «Pubblica» */
+  .collection-edit--pagine .doc-controls::before,
+  [class*="global-edit--"] .doc-controls::before {
+    content: "Pubblica";
   }
 }
