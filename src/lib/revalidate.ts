@@ -13,6 +13,12 @@ const expire = (tag: string) => {
   }
 };
 
+/**
+ * Rete di sicurezza: anche se l'ordine di svuotare la cache non arriva (per esempio salvando dal pannello in locale,
+ * che ha una cache sua e non può svuotare quella di Vercel), il sito rilegge i contenuti al massimo dopo questo tempo.
+ */
+export const SCADENZA_CACHE = 60;
+
 export const revalidateSite = () => expire(SITE_TAG);
 export const revalidatePages = () => expire(PAGES_TAG);
 

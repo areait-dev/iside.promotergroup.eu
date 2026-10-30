@@ -3,14 +3,14 @@ import { unstable_cache } from "next/cache";
 import { getPayload } from "payload";
 import { HOME_DEFAULTS, type HomeContent } from "@/content/home";
 import { TESTI } from "@/content/testi";
-import { NotSeededError, PAGES_TAG } from "./revalidate";
+import { NotSeededError, PAGES_TAG, SCADENZA_CACHE } from "./revalidate";
 
 const str = (v: unknown) => (typeof v === "string" ? v.trim() : "");
 
 type Doc = Record<string, unknown> & { createdAt?: string };
 type MediaDoc = { url?: string; alt?: string } | number | null | undefined;
 
-/** Legge un global già "piatto" (JSON) e lo tiene in cache fino al prossimo salvataggio nel pannello. */
+/** Legge un global già "piatto" (JSON) e lo tiene in cache fino al prossimo salvataggio nel pannello (o, al massimo, per SCADENZA_CACHE secondi). */
 const loadGlobal = (slug: string) =>
   unstable_cache(
     async (): Promise<Doc> => {
@@ -20,7 +20,7 @@ const loadGlobal = (slug: string) =>
       return doc;
     },
     ["pagina", slug],
-    { tags: [PAGES_TAG] },
+    { tags: [PAGES_TAG], revalidate: SCADENZA_CACHE },
   )();
 
 const media = (m: MediaDoc) => (m && typeof m === "object" && m.url ? { image: m.url, alt: str(m.alt) } : null);
@@ -135,7 +135,7 @@ const loadPagina = (slug: string) =>
       return JSON.parse(JSON.stringify(r.docs[0] ?? null)) as Record<string, unknown> | null;
     },
     ["pagina-nuova", slug],
-    { tags: [PAGES_TAG] },
+    { tags: [PAGES_TAG], revalidate: SCADENZA_CACHE },
   )();
 
 /** Una pagina pubblicata, o null se non esiste (o è ancora una bozza). */

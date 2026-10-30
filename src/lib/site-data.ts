@@ -2,7 +2,7 @@ import config from "@payload-config";
 import { unstable_cache } from "next/cache";
 import { getPayload } from "payload";
 import { LEGAL, MENU_LINKS, SITE, isTodo, todo } from "@/config/site";
-import { NotSeededError, SITE_TAG } from "./revalidate";
+import { NotSeededError, SCADENZA_CACHE, SITE_TAG } from "./revalidate";
 
 type Widen<T> = T extends string
   ? string
@@ -26,7 +26,7 @@ const loadCms = unstable_cache(
     return doc;
   },
   ["impostazioni"],
-  { tags: [SITE_TAG] },
+  { tags: [SITE_TAG], revalidate: SCADENZA_CACHE },
 );
 
 /** "+39 392 070 2561" → "393920702561". Senza prefisso si assume l'Italia. */
@@ -109,7 +109,7 @@ const loadMenu = unstable_cache(
     return doc;
   },
   ["menu"],
-  { tags: [SITE_TAG] },
+  { tags: [SITE_TAG], revalidate: SCADENZA_CACHE },
 );
 
 /** Voci del menu (senza la Home, che c'è sempre): dal pannello se compilato, altrimenti quelle di config/site.ts. */
