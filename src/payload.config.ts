@@ -80,6 +80,10 @@ export default buildConfig({
   db: usaPostgres
     ? postgresAdapter({
         pool: { connectionString: DATABASE_URL, max: 3 },
+        // Niente sincronizzazione automatica dello schema in sviluppo: il database è lo stesso di Vercel e `push` ci lascia
+        // una riga «dev» (batch -1) che blocca l'avvio online, perché Payload chiede una conferma a cui nessuno può rispondere.
+        // Lo schema cambia solo con le migrazioni (npm run db:migrate:create).
+        push: false,
         // Postgres ha le sue migrazioni (dialetto diverso da SQLite).
         migrationDir: path.resolve(process.cwd(), "src/migrations-pg"),
         prodMigrations: migrationsPg,
